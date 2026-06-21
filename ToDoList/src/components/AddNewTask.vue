@@ -5,14 +5,14 @@ import { onClickOutside } from '@vueuse/core'
 
 const tag = ref('')
 const tags = ['work', 'personal', 'urgent']
-const tabController=ref()
+const activeTab=ref(0)
 const controller=ref(false)
+const task=ref("")
 const card = ref(null)
 
 function tabs(data,index){
 tag.value=data
-console.log(tag.value)
-tabController.value=index
+activeTab.value=index
 
 }
 
@@ -34,7 +34,7 @@ onClickOutside(card, () => {
         <div class="flex justify-between items-center">
           <div class="flex gap-3 items-center">
             <div class="h-4 w-4 border-2 border-pink-300 rounded-full"></div>
-            <input type="text" class="outline-0" placeholder="Add a new task..." />
+            <input v-model="task" type="text" class="outline-0" placeholder="Add a new task..." />
           </div>
           <div class="h-7 w-7  flex items-center justify-center rounded-sm bg-pink-200
            hover:transition-all duration-300 hover:scale-105 hover:shadow-lg ">
@@ -46,7 +46,7 @@ onClickOutside(card, () => {
   <div v-if="controller" class="w-full">
     <hr class="text-gray-100 my-4 w-full" />
 
-    <div class="flex gap-3">
+    <div class="flex gap-3 ">
       <div class="text-gray-300 font-light font-mono text-sm self-center">
         TAG
       </div>
@@ -55,8 +55,8 @@ onClickOutside(card, () => {
         v-for="(t,index) in tags"
         :key="index"
         @click="tabs(t,index)"
-        :class="tabController!=index?'text-gray-500 font-light font-mono text-sm bg-gray-100 px-2 py-1':
-        'text-white font-light font-mono text-sm bg-pink-300 px-2 py-1'"
+        :class="activeTab===index?'text-white font-light font-mono text-sm bg-pink-300 px-2 py-1':
+        'text-gray-500 font-light font-mono text-sm bg-gray-100 px-2 py-1 cursor-pointer hover:scale-105 transition'"
       >
         {{ t }}
       </div>
