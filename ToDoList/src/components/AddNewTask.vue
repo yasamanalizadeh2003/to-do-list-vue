@@ -1,24 +1,28 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { provide, reactive, ref } from 'vue'
 import { Plus } from 'lucide-vue-next'
 import { onClickOutside } from '@vueuse/core'
+import { useTodoStore } from '@/pinia/stores/todo'
 
-const tag = ref('')
 const tags = ['work', 'personal', 'urgent']
 const activeTab=ref(0)
 const controller=ref(false)
-const task=ref("")
 const card = ref(null)
 
+const store = useTodoStore()
+
+
 function tabs(data,index){
-tag.value=data
+store.tag=data
 activeTab.value=index
 
 }
 
+
 onClickOutside(card, () => {
   controller.value = false
 })
+
 </script>
 
 <template>
@@ -34,9 +38,10 @@ onClickOutside(card, () => {
         <div class="flex justify-between items-center">
           <div class="flex gap-3 items-center">
             <div class="h-4 w-4 border-2 border-pink-300 rounded-full"></div>
-            <input v-model="task" type="text" class="outline-0" placeholder="Add a new task..." />
+            <input v-model="store.task" type="text" class="outline-0" placeholder="Add a new task..." />
           </div>
-          <div class="h-7 w-7  flex items-center justify-center rounded-sm bg-pink-200
+          <div @click="store.addTodo"
+          class="h-7 w-7  flex items-center justify-center rounded-sm bg-pink-200
            hover:transition-all duration-300 hover:scale-105 hover:shadow-lg ">
             <Plus class="w-5 h-5 text-white" />
           </div>
