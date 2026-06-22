@@ -16,22 +16,23 @@ const store = useTodoStore()
       >
 
         <!-- checkbox -->
-          <div class="flex gap-3 mt-5 self-center">
+          <div class="flex gap-3">
         <div
           @click="store.toggleDone(index)"
-         :class="todo.done?'bg-pink-200 border-pink-400':'border-gray-200'" 
+         :class="todo.done?'bg-pink-200 border-pink-400':'border-gray-300'" 
              class="h-6 w-6 rounded-full border-2  mr-2 self-center">
     </div>
     </div>
       <!-- task+type -->
-            <div class="flex flex-col gap-1 text-[20px]">
+            <div class="flex flex-col gap-1 text-[20px] w-full px-4 py-1">
                 <!-- task -->
-              <div class="">
+              <div class="font-serif">
              {{ todo.task}}
               </div >
               <!-- type -->
-               <div class=" flex items-center gap-1">
-               <div class="h-2 w-2 rounded-full"></div>
+               <div class=" flex items-center  gap-1">
+               <div :class="todo.tag=='work' ? 'bg-gray-300':todo.tag=='personal'?'bg-pink-200':todo.tag=='urgent'?'bg-gray-700':''"
+                class="h-2 w-2 rounded-full mt-1"></div>
               <div class="text-[13px]">
               {{todo.tag}}
               </div>
