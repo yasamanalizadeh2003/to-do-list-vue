@@ -7,11 +7,13 @@ const store = useTodoStore()
 
 <template>
   <div>
-    <div class="border-2 mb-10 border-gray-200 flex flex-col  mt-8 w-full max-w-158 shadow-sm shadow-gray-300 mx-auto">
+    <div
+    class="border-2 mb-10 border-gray-200 flex flex-col  mt-8 w-full max-w-158 shadow-sm shadow-gray-300 mx-auto">
     <ul>
+       <TransitionGroup name="todo" tag="div">
       <li
-        v-for="(todo, index) in store.todos"
-        :key="index"
+        v-for="(todo, index) in store.filteredTodos"
+        :key="todo.id"
         class="flex justify-between group items-center border-b-2 border-gray-200 px-4 py-2"
       >
 
@@ -36,6 +38,7 @@ const store = useTodoStore()
               <div class="text-[13px]">
               {{todo.tag}}
               </div>
+              
             </div>
             </div>
            
@@ -51,7 +54,34 @@ const store = useTodoStore()
             </div>
 
       </li>
+      </TransitionGroup>
     </ul>
     </div>
   </div>
 </template>
+
+<style scoped>
+.todo-enter-active,
+.todo-leave-active {
+  transition: all 0.2s ease;
+}
+
+.todo-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.todo-leave-to {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.todo-leave-active {
+  position: absolute;
+  width: 100%;
+}
+
+.todo-move {
+  transition: transform 0.2s ease;
+}
+</style>
