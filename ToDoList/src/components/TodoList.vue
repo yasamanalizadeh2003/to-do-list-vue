@@ -10,7 +10,20 @@ const store = useTodoStore()
     <div
       class="border-2 mb-10 border-gray-200 flex flex-col mt-8 w-full max-w-158 shadow-sm shadow-gray-300 mx-auto"
     >
-      <ul>
+    <div class="flex flex-col items-center p-24 gap-2"  v-if="store.todos.filter(t => t.done).length ===0  && store.activeTab === 'DONE'">
+      <div class=" h-12 w-12 bg-pink-200 rounded-full flex items-center justify-center">
+        <Check class="stroke-pink-500"/>
+      </div>
+    <div class="text-center text-gray-400">Nothing completed yet!</div>
+      </div>
+      <div class="flex flex-col items-center p-24 gap-2" 
+      v-if="(store.todos.filter(t => t.done).length !==0 && store.activeTab === 'ACTIVE') ||(store.todos.length === 0 && store.activeTab === 'ALL')">
+         <div class=" h-12 w-12 bg-pink-200 rounded-full flex items-center justify-center">
+        <Check class="stroke-pink-500"/>
+      </div>
+       <div class="text-center text-gray-400">All clear __ you're done!</div>
+      </div>
+    <ul v-else>
         <TransitionGroup name="todo" tag="div">
           <li 
           :class="todo.done?'bg-gray-100':''"
@@ -25,7 +38,7 @@ const store = useTodoStore()
                 :class="todo.done ? 'bg-pink-300 border-pink-500 shadow-[0_0_10px_2px_rgba(236,72,153,0.25)]' : 'border-gray-300'"
                 class="h-6 w-6 rounded-full border-2 mr-2 self-center flex items-center"
               >
-            <Check class="h-5 text-white"/>
+            <Check class="h-5 text-white animate-pop"/>
             </div>
             </div>
             <!-- task+type -->
