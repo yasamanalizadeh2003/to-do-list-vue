@@ -1,18 +1,27 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { computed } from 'vue'
 
 export const useTodoStore = defineStore('todo', () => {
-  const todos = ref([])
+  const todos = ref(JSON.parse(localStorage.getItem('todos')) || [])
   const task=ref("")
   const tag=ref("work")
   const activeTab=ref("")
+
+  watch(
+  todos,
+  (newTodos) => {
+    localStorage.setItem('todos', JSON.stringify(newTodos))
+  },
+  { deep: true }
+)
 
 function clickTab(data){
 activeTab.value=data
 }
  
   function addTodo() {
+    if(task.value!=""){
     todos.value.push({
        id: Date.now(),
       task:task.value,
@@ -21,7 +30,7 @@ activeTab.value=data
       activeTab:activeTab.value
     })
     task.value=""
-  }
+  }}
 
   function deleteTodo(index) {
     todos.value.splice(index, 1)
